@@ -1,6 +1,6 @@
-# Friday Backend
+# Pack AI Web Backend
 
-Phase 2 backend foundation for the Friday web-based AI agent, independent of n8n.
+Phase 2 backend foundation for the Pack AI web client, independent of n8n.
 
 ## Current capabilities
 
@@ -26,7 +26,7 @@ Phase 2 backend foundation for the Friday web-based AI agent, independent of n8n
 
 ## Principles
 
-- Friday backend is independent of n8n.
+- Pack AI backend is independent of n8n.
 - Long-running work uses tasks and workers rather than holding an HTTP request open.
 - AI providers and tools are implemented behind explicit interfaces.
 - Runtime verification is performed against the deployed web backend; source-level checks alone are not considered sufficient.
@@ -93,4 +93,4 @@ The agent registry currently exposes:
 
 Set `GITHUB_TOKEN` for GitHub access. Set `FRIDAY_ALLOW_GITHUB_MUTATIONS=true` only when repository mutations are intentionally authorized. The mutation flag defaults to false.
 
-Production verification must be performed against the deployed backend and PostgreSQL environment; Friday does not depend on a local PC or local build for operation.
+Production verification must be performed against the deployed backend and PostgreSQL environment; Pack AI does not depend on a local PC or local build for operation.

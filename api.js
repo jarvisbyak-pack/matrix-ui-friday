@@ -53,7 +53,7 @@
     }
     if (configured) return normalizeBase(configured);
     if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") return "/api";
-    throw new Error("Friday backend URL is not configured for this deployment.");
+    throw new Error("Pack AI backend URL is not configured for this deployment.");
   };
 
   const setApiBase = value => {
@@ -79,7 +79,7 @@
     try {
       response = await fetch(base + path, { ...fetchOptions, headers });
     } catch {
-      throw new Error("Friday backend is unreachable. Check the API URL in Settings.");
+      throw new Error("Pack AI backend is unreachable. Check the API URL in Settings.");
     }
 
     const contentType = response.headers.get("content-type") || "";

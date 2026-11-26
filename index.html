@@ -5,19 +5,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#000000">
-<meta name="description" content="Friday — a web-based AI agent interface.">
-<title>Friday</title>
+<meta name="description" content="Pack AI — private AI workspace.">
+<title>Pack AI</title>
 <link rel="stylesheet" href="./styles.css">
-<link rel="stylesheet" href="./face.css">
+
 </head>
 <body>
 <div class="scrim" id="scrim"></div>
 
-<aside class="sidebar" id="sidebar" aria-label="Friday navigation" aria-hidden="true">
+<aside class="sidebar" id="sidebar" aria-label="Pack AI navigation" aria-hidden="true">
   <div class="sb-head">
-    <button class="sb-brand" type="button" data-action="home" aria-label="Friday home">
-      <span class="mark"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 5a19 19 0 1 0 17 10.4"/><path d="M17 18.5 24 12l7 6.5v9L24 34l-7-6.5z"/><path d="M31 18.5 39 12"/></svg></span>
-      <span>Friday</span>
+    <button class="sb-brand" type="button" data-action="home" aria-label="Pack AI home">
+      <span class="mark"><img src="./assets/brand/pack-ai-icon-192.png" alt="" /></span>
+      <span>Pack AI</span>
     </button>
     <button class="icon" id="closeSidebar" type="button" data-action="close-sidebar" aria-label="Close sidebar">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
@@ -81,7 +81,7 @@
 
   <div class="sb-foot">
     <button class="profile" id="profile-button" type="button" data-action="profile">
-      <div class="profile-avatar" id="profile-avatar">F</div>
+      <div class="profile-avatar" id="profile-avatar">P</div>
       <div class="profile-meta">
         <span class="profile-name">Signed out</span>
         <span class="profile-sub">Authentication required</span>
@@ -102,23 +102,21 @@
       <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16"/></svg>
     </button>
 
-    <button class="brand" type="button" data-action="home" aria-label="Friday home">
-      <div class="mark">
-        <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 5a19 19 0 1 0 17 10.4"/><path d="M17 18.5 24 12l7 6.5v9L24 34l-7-6.5z"/><path d="M31 18.5 39 12"/></svg>
-      </div>
+    <button class="brand" type="button" data-action="home" aria-label="Pack AI home">
+      <div class="mark"><img src="./assets/brand/pack-ai-icon-192.png" alt="" /></div>
       <div class="brand-meta">
-        <span class="brand-name">Friday</span>
+        <span class="brand-name">Pack AI</span>
         <span class="connection"><i class="dot" id="connectionDot"></i><span id="connection-state">Checking backend</span></span>
       </div>
     </button>
 
     <div class="top-actions">
-      <button class="mood-button" id="mood-button" type="button" data-action="mood" aria-label="Change Friday mood" title="Change Friday mood" aria-expanded="false">
-        <span class="mood-swatch" id="mood-swatch"></span>
-        <span class="mood-label" id="mood-label">Calm</span>
-      </button>
-      <button class="icon" type="button" data-action="toggle-activity" aria-label="Friday Activity" title="Friday Activity">
+      
+      <button class="icon" type="button" data-action="toggle-activity" aria-label="Pack AI Activity" title="Pack AI Activity">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg>
+      </button>
+      <button class="icon" type="button" data-action="fullscreen" aria-label="Toggle fullscreen" title="Toggle fullscreen">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
       </button>
       <button class="icon" type="button" data-action="toggle-theme" aria-label="Toggle theme" title="Toggle theme">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
@@ -128,28 +126,20 @@
       </button>
     </div>
 
-    <div class="mood-popover" id="mood-popover" role="menu" aria-hidden="true">
-      <div class="mood-popover-title">Friday character</div>
-      <button class="mood-option" data-mood="calm" type="button" role="menuitem"><span class="mood-option-swatch"></span><span><strong>Calm</strong><small>Composed · steady · helpful</small></span></button>
-      <button class="mood-option" data-mood="focused" type="button" role="menuitem"><span class="mood-option-swatch"></span><span><strong>Focused</strong><small>Precise · analytical · locked in</small></span></button>
-      <button class="mood-option" data-mood="alert" type="button" role="menuitem"><span class="mood-option-swatch"></span><span><strong>Alert</strong><small>Fast · vigilant · reactive</small></span></button>
-      <button class="mood-option" data-mood="angry" type="button" role="menuitem"><span class="mood-option-swatch"></span><span><strong>Angry</strong><small>Intense · forceful · redline</small></span></button>
-      <div class="mood-popover-divider"></div>
-      <button class="mood-face-open" data-action="face" type="button">Open Friday Face →</button>
-    </div>
+    
   </header>
 
   <main class="stage" id="stage">
     <section class="home" id="welcome">
       <h1 class="greeting">How can I assist you?</h1>
-      <p class="subgreeting">Ask Friday to research, build, test, automate, or work with your projects.</p>
+      <p class="subgreeting">Ask Pack AI to research, build, test, automate, or work with your projects.</p>
       <div class="suggestions" id="suggestions">
-        <button class="suggestion" type="button" data-prompt="Build the first Friday web UI from our Phase 1 design.">
+        <button class="suggestion" type="button" data-prompt="Build the first Pack AI web UI from our Phase 1 design.">
           <span class="suggestion-icon">＋</span>
-          <span class="suggestion-text">Build the Friday web UI<small>Start with the Phase 1 interface</small></span>
+          <span class="suggestion-text">Build the Pack AI web UI<small>Start with the Phase 1 interface</small></span>
           <span class="suggestion-arrow">↗</span>
         </button>
-        <button class="suggestion" type="button" data-prompt="Review the Friday architecture and tell me what we should build next.">
+        <button class="suggestion" type="button" data-prompt="Review the Pack AI architecture and tell me what we should build next.">
           <span class="suggestion-icon">⌕</span>
           <span class="suggestion-text">Review the architecture<small>Find the next engineering step</small></span>
           <span class="suggestion-arrow">↗</span>
@@ -246,7 +236,7 @@
         <div class="quick-actions">
           <button class="small-btn" type="button" data-run-prompt="Inspect my GitHub project and summarize its current state.">Summarize repository</button>
           <button class="small-btn" type="button" data-run-prompt="Review recent commits and workflow health in the active repository.">Check workflow health</button>
-          <button class="small-btn" type="button" data-run-prompt="List open engineering priorities for the Friday frontend and backend.">Plan next milestone</button>
+          <button class="small-btn" type="button" data-run-prompt="List open engineering priorities for the Pack AI frontend and backend.">Plan next milestone</button>
         </div>
       </div>
       <div class="notice">GitHub repository mutations remain disabled by default unless explicitly enabled on the backend.</div>
@@ -256,21 +246,18 @@
   <footer class="composer-wrap" id="composerWrap">
     <form class="composer" id="composer">
       <div class="chips" id="attachmentChips"></div>
-      <textarea id="prompt" rows="1" placeholder="Message Friday" autocomplete="off" aria-label="Message Friday"></textarea>
+      <textarea id="prompt" rows="1" placeholder="Message Pack AI" autocomplete="off" aria-label="Message Pack AI"></textarea>
       <div class="composer-controls">
         <div class="tools">
           <button type="button" class="tool" data-action="attach" aria-label="Attach files" title="Attach files">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
           </button>
-          <button type="button" class="tool" data-action="face" aria-label="Open Friday Face" title="Friday Face">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.5"/></svg>
-          </button>
+          
           <button type="button" class="tool" data-action="voice" aria-label="Voice input" title="Voice input">
             <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 19v3"/></svg>
           </button>
         </div>
         <div class="composer-right">
-          <button type="button" class="small-btn model-select" data-action="model">Gemini</button>
           <button type="button" class="small-btn" id="stopBtn" hidden>Stop</button>
           <button class="send" id="send" type="submit" aria-label="Send" disabled>
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
@@ -281,13 +268,13 @@
   </footer>
 </div>
 
-<aside class="activity-panel" id="activity-panel" aria-label="Friday Activity" aria-hidden="true">
+<aside class="activity-panel" id="activity-panel" aria-label="Pack AI Activity" aria-hidden="true">
   <div class="activity-header">
     <div>
       <span class="activity-kicker"><span class="activity-live-dot"></span>LIVE OPERATIONS</span>
-      <h2>Friday Activity</h2>
+      <h2>Pack AI Activity</h2>
     </div>
-    <button class="icon" type="button" data-action="toggle-activity" aria-label="Hide Friday Activity">
+    <button class="icon" type="button" data-action="toggle-activity" aria-label="Hide Pack AI Activity">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
     </button>
   </div>
@@ -311,7 +298,7 @@
     <header class="task-view-header">
       <div>
         <span class="activity-kicker"><span class="activity-live-dot"></span>TASK DETAILS</span>
-        <h2 id="task-view-title">Current Friday task</h2>
+        <h2 id="task-view-title">Current Pack AI task</h2>
         <p id="task-view-subtitle">Idle</p>
       </div>
       <button class="icon" type="button" data-action="close-task-view" aria-label="Close task details">
@@ -332,14 +319,14 @@
       <section class="task-card">
         <div class="task-card-label">DETAILS &amp; LOGS</div>
         <div class="task-metadata">
-          <div><span>Runner</span><strong id="task-tool">Friday agent</strong></div>
+          <div><span>Runner</span><strong id="task-tool">Pack AI agent</strong></div>
           <div><span>Status</span><strong id="task-meta-status">Idle</strong></div>
         </div>
         <div class="task-log" id="task-log">Ready for execution logs…</div>
       </section>
     </div>
     <footer class="task-view-footer">
-      <span id="task-footer-state">Friday ready</span>
+      <span id="task-footer-state">Pack AI ready</span>
       <button class="small-btn" type="button" data-action="close-task-view">Close</button>
     </footer>
   </div>
@@ -347,46 +334,15 @@
 
 <input type="file" id="file-input" hidden multiple>
 
-<div class="face-mode" id="face-mode" aria-hidden="true">
-  <div class="face-top">
-    <div class="face-title"><span class="face-title-dot"></span><span>Friday Face</span></div>
-    <button class="icon" type="button" data-action="close-face" aria-label="Close Friday Face">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
-    </button>
-  </div>
-  <div class="face-center">
-    <div class="face-mood-picker" id="face-mood-picker" role="group" aria-label="Friday character">
-      <button class="face-mood-option" data-mood="calm" type="button">Calm</button>
-      <button class="face-mood-option" data-mood="focused" type="button">Focused</button>
-      <button class="face-mood-option" data-mood="alert" type="button">Alert</button>
-      <button class="face-mood-option" data-mood="angry" type="button">Angry</button>
-    </div>
-    <div class="face-mood-state" id="face-mood-state">Calm · composed</div>
-    <div class="face-status" id="face-status">Friday online</div>
-    <div class="face-orb-wrap">
-      <div class="face-orb" id="face-orb" aria-hidden="true"></div>
-    </div>
-    <div class="face-state" id="face-state">Ready</div>
-    <div class="face-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-    <div class="face-input-wrap">
-      <input id="face-prompt" class="face-input" type="text" autocomplete="off" placeholder="Talk to Friday…" aria-label="Talk to Friday">
-      <button class="tool" data-action="voice" type="button" aria-label="Voice input">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0M12 19v3"/></svg>
-      </button>
-    </div>
-    <div class="face-hint">Character state adjusts Friday Face • Esc to close</div>
-  </div>
-</div>
+
 
 <div class="toast" id="toast" role="status"></div>
 
 <div class="auth-overlay" id="auth-overlay">
   <div class="auth-card">
-    <div class="mark auth-mark">
-      <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 5a19 19 0 1 0 17 10.4"/><path d="M17 18.5 24 12l7 6.5v9L24 34l-7-6.5z"/><path d="M31 18.5 39 12"/></svg>
-    </div>
-    <h2 id="auth-mode">Sign in to Friday</h2>
-    <p>Sign in to access your authenticated Friday workspace.</p>
+    <div class="mark auth-mark"><img src="./assets/brand/pack-ai-icon-192.png" alt="Pack AI" /></div>
+    <h2 id="auth-mode">Sign in to Pack AI</h2>
+    <p>Sign in to access your authenticated Pack AI workspace.</p>
     <div class="oauth-buttons">
       <button class="oauth-button" id="google-auth" type="button">Continue with Google</button>
       <button class="oauth-button" id="github-auth" type="button">Continue with GitHub</button>
@@ -410,7 +366,7 @@
     <div class="settings-head">
       <div>
         <h2>Settings</h2>
-        <p>Configure the Friday backend URL for this workspace.</p>
+        <p>Configure the Pack AI backend URL for this workspace.</p>
       </div>
       <button class="icon" id="close-settings-x" type="button" aria-label="Close settings">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
@@ -428,6 +384,6 @@
 
 <script src="./api.js" defer></script>
 <script src="./app.js" defer></script>
-<script src="./face.js" defer></script>
+
 </body>
 </html>

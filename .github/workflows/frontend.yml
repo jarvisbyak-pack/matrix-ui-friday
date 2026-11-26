@@ -1,4 +1,4 @@
-name: Friday frontend checks
+name: Pack AI frontend checks
 
 on:
   push:
@@ -9,8 +9,7 @@ on:
       - "app.js"
       - "runtime-config.js"
       - "styles.css"
-      - "face.js"
-      - "face.css"
+      - "assets/brand/**"
       - ".github/workflows/frontend.yml"
       - ".github/workflows/static.yml"
   pull_request:
@@ -20,8 +19,7 @@ on:
       - "app.js"
       - "runtime-config.js"
       - "styles.css"
-      - "face.js"
-      - "face.css"
+      - "assets/brand/**"
       - ".github/workflows/frontend.yml"
       - ".github/workflows/static.yml"
   workflow_dispatch:
@@ -41,7 +39,6 @@ jobs:
         run: |
           node --check api.js
           node --check app.js
-          node --check face.js
           node --check runtime-config.js
       - name: Check required frontend files
         run: |
@@ -50,8 +47,8 @@ jobs:
           test -s app.js
           test -s runtime-config.js
           test -s styles.css
-          test -s face.css
-          test -s face.js
+          test -s assets/brand/pack-ai-icon-192.png
+          test -s assets/brand/pack-ai-logo.png
           ! grep -RniE "guest mode|open in guest|UI preview.*sign in" app.js index.html
       - name: Validate production backend URL
         if: github.event_name != 'pull_request'

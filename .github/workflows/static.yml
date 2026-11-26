@@ -1,4 +1,4 @@
-name: Deploy static frontend to GitHub Pages
+name: Deploy Pack AI frontend to GitHub Pages
 
 on:
   push:
@@ -9,8 +9,7 @@ on:
       - "app.js"
       - "runtime-config.js"
       - "styles.css"
-      - "face.js"
-      - "face.css"
+      - "assets/brand/**"
       - ".github/workflows/static.yml"
   workflow_dispatch:
 
@@ -20,8 +19,8 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
-  cancel-in-progress: false
+  group: github-pages
+  cancel-in-progress: true
 
 jobs:
   deploy:
@@ -35,28 +34,31 @@ jobs:
 
       - name: Validate production backend URL
         env:
-          FRIDAY_API_BASE_URL: ${{ vars.FRIDAY_API_BASE_URL || 'https://friday-web-ui-phase-1-frontend-a2m4.onrender.com' }}
+          PACKAI_API_BASE_URL: ${{ vars.PACKAI_API_BASE_URL || vars.FRIDAY_API_BASE_URL || 'https://friday-web-ui-phase-1-frontend-a2m4.onrender.com' }}
         run: |
           set -eu
-          case "$FRIDAY_API_BASE_URL" in
+          case "$PACKAI_API_BASE_URL" in
             https://*) ;;
-            *) echo "FRIDAY_API_BASE_URL must be an HTTPS backend origin." >&2; exit 1 ;;
+            *) echo "PACKAI_API_BASE_URL must be an HTTPS backend origin." >&2; exit 1 ;;
           esac
-          node -e "new URL(process.env.FRIDAY_API_BASE_URL)"
+          node -e "new URL(process.env.PACKAI_API_BASE_URL)"
 
       - name: Build static site
         env:
-          FRIDAY_API_BASE_URL: ${{ vars.FRIDAY_API_BASE_URL || 'https://friday-web-ui-phase-1-frontend-a2m4.onrender.com' }}
+          PACKAI_API_BASE_URL: ${{ vars.PACKAI_API_BASE_URL || vars.FRIDAY_API_BASE_URL || 'https://friday-web-ui-phase-1-frontend-a2m4.onrender.com' }}
         run: |
           set -eu
           mkdir -p _site
-          for file in index.html api.js app.js styles.css face.js face.css; do
+          for file in index.html api.js app.js styles.css; do
             test -s "$file"
             cp "$file" _site/
           done
+          test -s assets/brand/pack-ai-icon-192.png
+          test -s assets/brand/pack-ai-logo.png
+          cp -R assets _site/
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
-          const apiBaseUrl = process.env.FRIDAY_API_BASE_URL.replace(/\/$/, '');
+          const apiBaseUrl = process.env.PACKAI_API_BASE_URL.replace(/\/$/, '');
           new URL(apiBaseUrl);
           fs.writeFileSync(
             '_site/runtime-config.js',
@@ -66,11 +68,11 @@ jobs:
           NODE
           test -s _site/runtime-config.js
 
-      - name: Setup GitHub Pages
+      - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: _site
 

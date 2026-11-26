@@ -1,6 +1,6 @@
-# Friday — Web Platform
+# Pack AI — Web Client
 
-Friday is a web-based AI agent platform. This repository is the source of truth for the application.
+Pack AI is a web-based AI workspace connected to its separately hosted agent backend. This repository is the source of truth for the application.
 
 ## Current architecture
 
@@ -12,7 +12,7 @@ Friday is a web-based AI agent platform. This repository is the source of truth 
 - **GitHub:** repository inspection and controlled mutations, with mutation flags disabled by default.
 - **Code execution:** controlled allowlist and disabled by default.
 - **Web access:** read-only fetching with SSRF protections.
-- **n8n:** optional integration only; it is not Friday's core execution layer.
+- **n8n:** optional integration only; it is not Pack AI's core execution layer.
 
 ## Phase 1 frontend
 
@@ -55,6 +55,6 @@ Workflows are stored in `.github/workflows/frontend.yml` and `.github/workflows/
 
 ## Deployment
 
-The frontend can be hosted on GitHub Pages. The production frontend must point to a separately deployed HTTPS Friday backend, and the backend must allow the exact GitHub Pages origin through `FRONTEND_ORIGIN`.
+The frontend can be hosted on GitHub Pages. The production frontend must point to a separately deployed HTTPS Pack AI backend, and the backend must allow the exact GitHub Pages origin through `FRONTEND_ORIGIN`.
 
 The GitHub Pages site cannot execute backend API routes itself; backend deployment is therefore the next deployment step after local runtime verification.

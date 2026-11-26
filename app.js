@@ -282,14 +282,14 @@
 
     const avatar = document.createElement("div");
     avatar.className = "avatar";
-    avatar.textContent = "F";
+    avatar.textContent = "P";
 
     const body = document.createElement("div");
     body.className = "assistant-body";
 
     const label = document.createElement("div");
     label.className = "label";
-    label.textContent = "Friday";
+    label.textContent = "Pack AI";
 
     const bubble = document.createElement("div");
     bubble.className = "bubble";
@@ -362,7 +362,7 @@
     if (runningTasksBox) {
       runningTasksBox.innerHTML = "";
       if (!running.length) {
-        runningTasksBox.innerHTML = '<div class="activity-empty"><strong>No active tasks</strong><small>Friday will show live work here.</small></div>';
+        runningTasksBox.innerHTML = '<div class="activity-empty"><strong>No active tasks</strong><small>Pack AI will show live work here.</small></div>';
       } else {
         running.forEach(task => {
           const btn = document.createElement("button");
@@ -423,7 +423,7 @@
     if (!task) return;
     taskTitleEl.textContent = task.title;
     taskSubtitleEl.textContent = task.statusLabel;
-    taskToolEl.textContent = task.runner || "Friday agent";
+    taskToolEl.textContent = task.runner || "Pack AI agent";
     taskMetaStatusEl.textContent = task.state;
     taskProgressEl.style.width = Math.max(0, Math.min(100, task.progress)) + "%";
     taskProgressValueEl.textContent = Math.round(task.progress) + "%";
@@ -653,7 +653,7 @@
     }
 
     const title = firstMessage.length > 60 ? firstMessage.slice(0, 57) + "…" : firstMessage;
-    const result = await FridayApi.createConversation(title || "Friday conversation");
+    const result = await FridayApi.createConversation(title || "Pack AI conversation");
     currentConversationId = result.conversation.id;
     return currentConversationId;
   };
@@ -677,7 +677,7 @@
           startupAuthPending = false;
         }
       }
-      setStatus(currentUser ? "Friday online" : health.ok ? "Sign-in required" : "Backend unavailable", health.ok ? "online" : "error");
+      setStatus(currentUser ? "Pack AI online" : health.ok ? "Sign-in required" : "Backend unavailable", health.ok ? "online" : "error");
     } catch {
       connectionState.textContent = "Backend unavailable";
       setStatus("Backend unavailable", "error");
@@ -689,7 +689,7 @@
     if (!value || sending) return;
 
     if (!FridayApi.getToken()) {
-      showAuth("Sign in to send tasks to Friday.");
+      showAuth("Sign in to send tasks to Pack AI.");
       return;
     }
 
@@ -699,7 +699,7 @@
     cancelRequested = false;
     prompt.value = "";
     resize();
-    setStatus("Friday is working…", "busy");
+    setStatus("Pack AI is working…", "busy");
 
     const attachedNames = pendingFiles.map(f => f.name);
     const filesToUpload = pendingFiles.slice();
@@ -722,7 +722,7 @@
       state: "queued",
       statusLabel: "Queued",
       progress: 12,
-      runner: "Friday agent",
+      runner: "Pack AI agent",
       logs: ["Prompt submitted"]
     };
     sessionTasks.unshift(taskRecord);
@@ -750,7 +750,7 @@
         : "";
 
       const messages = [
-        { role: "system", content: "You are Friday, a web-based AI agent. Work carefully, use available tools when useful, and report concrete results. Do not claim an action succeeded unless the tool result confirms it." },
+        { role: "system", content: "You are Pack AI, a web-based AI agent. Work carefully, use available tools when useful, and report concrete results. Do not claim an action succeeded unless the tool result confirms it." },
         ...historyTurns.map(m => ({ role: m.role, content: m.content })),
         { role: "user", content: value + attachmentContext }
       ];
@@ -803,28 +803,28 @@
         taskRecord.statusLabel = "Stopped waiting for response";
         taskRecord.logs.push("User stopped waiting");
         appendMessage("assistant", "Stopped waiting for task response.", { error: true });
-        setStatus("Friday online", "online");
+        setStatus("Pack AI online", "online");
         renderTasksUI();
         return;
       }
 
       if (!task || (task.state !== "completed" && task.state !== "failed")) {
-        throw new Error("Friday task timed out while waiting for the worker.");
+        throw new Error("Pack AI task timed out while waiting for the worker.");
       }
 
       if (task.state === "failed") {
-        throw new Error(task.error || "Friday task failed.");
+        throw new Error(task.error || "Pack AI task failed.");
       }
 
       const result = task.result || {};
       const answer = typeof result.text === "string" && result.text.trim()
         ? result.text
-        : "Friday completed the task, but returned no text response.";
+        : "Pack AI completed the task, but returned no text response.";
 
       taskRecord.state = "completed";
       taskRecord.progress = 100;
       taskRecord.statusLabel = "Completed";
-      taskRecord.runner = result.model || result.provider || "Friday agent";
+      taskRecord.runner = result.model || result.provider || "Pack AI agent";
       taskRecord.logs.push("Completed successfully");
 
       appendMessage("assistant", answer);
@@ -837,7 +837,7 @@
 
       await refreshHistory();
       setTaskState("Completed", true);
-      setStatus("Friday online", "online");
+      setStatus("Pack AI online", "online");
       addActivityEvent("Completed task " + taskId.slice(0, 8));
       renderTasksUI();
     } catch (error) {
@@ -868,7 +868,7 @@
   const finishAuth = async result => {
     currentUser = result.user;
     hideAuth();
-    setStatus("Friday online", "online");
+    setStatus("Pack AI online", "online");
     $(".profile-name").textContent = currentUser.email;
     $(".profile-sub").textContent = "Authenticated workspace";
     if (profileAvatar) {
@@ -882,7 +882,7 @@
         if (theme === "light" || theme === "dark") {
           const isLight = theme === "light";
           document.body.classList.toggle("light", isLight);
-          localStorage.setItem("friday_theme", theme);
+          localStorage.setItem("packai.theme", theme);
           const meta = document.querySelector('meta[name="theme-color"]');
           if (meta) meta.setAttribute("content", isLight ? "#fafafa" : "#000000");
         }
@@ -973,7 +973,7 @@
 
   authSwitch.addEventListener("click", () => {
     authRegisterMode = !authRegisterMode;
-    authMode.textContent = authRegisterMode ? "Create your Friday account" : "Sign in to Friday";
+    authMode.textContent = authRegisterMode ? "Create your Pack AI account" : "Sign in to Pack AI";
     authSubmit.textContent = authRegisterMode ? "Create account" : "Sign in";
     authSwitch.textContent = authRegisterMode ? "Already have an account? Sign in" : "Need an account? Create one";
     authError.classList.remove("visible");
@@ -1042,7 +1042,7 @@
     renderHistory();
     $(".profile-name").textContent = "Signed out";
     $(".profile-sub").textContent = "Authentication required";
-    if (profileAvatar) profileAvatar.textContent = "F";
+    if (profileAvatar) profileAvatar.textContent = "P";
     resetConversationView();
     showAuth("Signed out. Sign in to continue.");
   });
@@ -1097,11 +1097,19 @@
       prompt.focus();
     }
 
+    if (action === "fullscreen") {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen?.().catch(() => showToast("Fullscreen is unavailable."));
+      } else {
+        document.exitFullscreen?.().catch(() => showToast("Could not exit fullscreen."));
+      }
+    }
+
     if (action === "toggle-theme") {
       document.body.classList.toggle("light");
       const isLight = document.body.classList.contains("light");
       const theme = isLight ? "light" : "dark";
-      localStorage.setItem("friday_theme", theme);
+      localStorage.setItem("packai.theme", theme);
       const meta = document.querySelector('meta[name="theme-color"]');
       if (meta) meta.setAttribute("content", isLight ? "#fafafa" : "#000000");
       if (currentUser) void FridayApi.updateSettings({ theme }).catch(() => {});
@@ -1128,10 +1136,6 @@
         const transcript = Array.from(e.results).map(r => r[0].transcript).join("");
         prompt.value = transcript;
         resize();
-        const facePrompt = $("#face-prompt");
-        if (facePrompt && $("#face-mode")?.classList.contains("visible")) {
-          facePrompt.value = transcript;
-        }
       };
       rec.onerror = () => {
         if (activeRecognition === rec) activeRecognition = null;
@@ -1208,7 +1212,7 @@
     }
   });
 
-  if (localStorage.getItem("friday_theme") === "light") {
+  if ((localStorage.getItem("packai.theme") || localStorage.getItem("friday_theme")) === "light") {
     document.body.classList.add("light");
     const meta = document.querySelector('meta[name="theme-color"]');
     if (meta) meta.setAttribute("content", "#fafafa");

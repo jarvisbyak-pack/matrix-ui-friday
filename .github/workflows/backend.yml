@@ -1,4 +1,4 @@
-name: Friday backend verification
+name: Pack AI backend verification
 
 on:
   push:
