@@ -1,4 +1,4 @@
-name: Deploy Friday frontend to GitHub Pages
+name: Deploy static frontend to GitHub Pages
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
       - "styles.css"
       - "face.js"
       - "face.css"
-      - ".github/workflows/deploy.yml"
+      - ".github/workflows/static.yml"
   workflow_dispatch:
 
 permissions:
@@ -20,8 +20,8 @@ permissions:
   id-token: write
 
 concurrency:
-  group: github-pages
-  cancel-in-progress: true
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -37,17 +37,14 @@ jobs:
         env:
           FRIDAY_API_BASE_URL: ${{ vars.FRIDAY_API_BASE_URL || 'https://friday-web-ui-phase-1-frontend-a2m4.onrender.com' }}
         run: |
-          if [ -z "$FRIDAY_API_BASE_URL" ]; then
-            echo "FRIDAY_API_BASE_URL is required for production authentication." >&2
-            exit 1
-          fi
+          set -eu
           case "$FRIDAY_API_BASE_URL" in
             https://*) ;;
             *) echo "FRIDAY_API_BASE_URL must be an HTTPS backend origin." >&2; exit 1 ;;
           esac
           node -e "new URL(process.env.FRIDAY_API_BASE_URL)"
 
-      - name: Build static site with production API configuration
+      - name: Build static site
         env:
           FRIDAY_API_BASE_URL: ${{ vars.FRIDAY_API_BASE_URL || 'https://friday-web-ui-phase-1-frontend-a2m4.onrender.com' }}
         run: |
@@ -60,21 +57,23 @@ jobs:
           node --input-type=module <<'NODE'
           import fs from 'node:fs';
           const apiBaseUrl = process.env.FRIDAY_API_BASE_URL.replace(/\/$/, '');
-          const runtimeConfig = 'window.FRIDAY_CONFIG = ' + JSON.stringify({ API_BASE_URL: apiBaseUrl }) + ';\n';
-          fs.writeFileSync('_site/runtime-config.js', runtimeConfig, 'utf8');
           new URL(apiBaseUrl);
+          fs.writeFileSync(
+            '_site/runtime-config.js',
+            'window.FRIDAY_CONFIG = ' + JSON.stringify({ API_BASE_URL: apiBaseUrl }) + ';\n',
+            'utf8'
+          );
           NODE
           test -s _site/runtime-config.js
-          grep -q 'https://friday-web-ui-phase-1-frontend-a2m4.onrender.com' _site/runtime-config.js || grep -q "$FRIDAY_API_BASE_URL" _site/runtime-config.js
 
-      - name: Configure GitHub Pages
+      - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
 
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v3
         with:
           path: _site
 
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5

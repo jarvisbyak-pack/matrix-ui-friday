@@ -12,7 +12,7 @@ on:
       - "face.js"
       - "face.css"
       - ".github/workflows/frontend.yml"
-      - ".github/workflows/deploy.yml"
+      - ".github/workflows/static.yml"
   pull_request:
     paths:
       - "index.html"
@@ -23,7 +23,7 @@ on:
       - "face.js"
       - "face.css"
       - ".github/workflows/frontend.yml"
-      - ".github/workflows/deploy.yml"
+      - ".github/workflows/static.yml"
   workflow_dispatch:
 
 permissions:
